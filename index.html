@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Criterio Unificado de Señalamiento 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: expediente de dos partes — ficha de criterios (lectura) arriba, calendario anual (consulta) abajo, columna única de 1100px */
+:root{
+  --bg:#f7f7f4; --paper:#ffffff; --ink:#1c2230; --muted:#5d6472; --line:#dcdcd5;
+  --accent:#7a2e2e;               /* granate toga */
+  --u:#2f5d8a;  --u-bg:#e3ecf5;   /* Día U: despidos y urgentes */
+  --ss:#2f7a55; --ss-bg:#e1f1e8;  /* Día SS */
+  --o:#9a6512;  --o-bg:#f8ecd6;   /* Día O: ordinarios */
+  --x-bg:#ececE8; --x-fg:#8b8f97;  /* semana sin señalar */
+  --fest:#b3261e; --fest-bg:#fbe3e0;
+  --ex:#5b4a8a; --ex-bg:#ebe6f6;  /* ejecución */
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14171d; --paper:#1b1f27; --ink:#e7e8ea; --muted:#a2a7b1; --line:#2f3440;
+  --accent:#d9908a;
+  --u:#8db7e3; --u-bg:#1f3046; --ss:#83cfa6; --ss-bg:#1b3a2b; --o:#e3b469; --o-bg:#3d2f17;
+  --x-bg:#23262d; --x-fg:#6f7480; --fest:#ff8a80; --fest-bg:#45201d; --ex:#b9a8ec; --ex-bg:#2c2645;
+  color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#14171d; --paper:#1b1f27; --ink:#e7e8ea; --muted:#a2a7b1; --line:#2f3440;
+  --accent:#d9908a;
+  --u:#8db7e3; --u-bg:#1f3046; --ss:#83cfa6; --ss-bg:#1b3a2b; --o:#e3b469; --o-bg:#3d2f17;
+  --x-bg:#23262d; --x-fg:#6f7480; --fest:#ff8a80; --fest-bg:#45201d; --ex:#b9a8ec; --ex-bg:#2c2645;
+  color-scheme:dark;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:28px 60px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--serif);font-weight:650;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(1.7rem,3.6vw,2.35rem)}
+h2{font-size:1.4rem}
+h3{font-size:1.05rem}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.muted{color:var(--muted)}
+header{display:flex;flex-direction:column;gap:8px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+header .meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.88rem;color:var(--muted)}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:22px clamp(16px,3vw,30px);display:flex;flex-direction:column;gap:20px}
+.sheet-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
+.consensus{display:flex;flex-wrap:wrap;gap:12px}
+.big{flex:1 1 160px;border-left:3px solid var(--accent);padding:4px 0 4px 14px}
+.big b{font-family:var(--serif);font-size:2rem;display:block;line-height:1.1}
+.big span{font-size:.86rem;color:var(--muted)}
+.rule{display:grid;grid-template-columns:2.2rem 1fr;gap:4px 12px;padding-top:16px;border-top:1px solid var(--line)}
+.rule .n{font-family:var(--serif);font-size:1.25rem;color:var(--accent);font-weight:650}
+.rule .body{min-width:0;display:flex;flex-direction:column;gap:10px}
+ul.tight{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px}
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.day{border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.day .top{padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.day .top b{font-family:var(--serif);font-size:1.05rem}
+.day .top small{font-size:.8rem}
+.day.U .top{background:var(--u-bg);color:var(--u)} .day.SS .top{background:var(--ss-bg);color:var(--ss)} .day.O .top{background:var(--o-bg);color:var(--o)}
+.slots{width:100%;border-collapse:collapse;font-size:.84rem}
+.slots td{padding:6px 10px;border-top:1px solid var(--line);vertical-align:top}
+.slots td.t{font-family:var(--mono);font-size:.78rem;white-space:nowrap;color:var(--muted);width:1%}
+.slots td.q{font-weight:600;text-align:right;width:1%;font-variant-numeric:tabular-nums}
+.slots tr.ex td{background:var(--ex-bg);color:var(--ex)}
+.slots tr.res td{font-style:italic}
+.slots tr.tot td{font-weight:600;background:var(--bg)}
+.cycle{display:grid;grid-template-columns:auto repeat(2,minmax(0,1fr));gap:6px;font-size:.88rem;max-width:560px}
+.cycle div{padding:8px 10px;border-radius:4px}
+.cycle .h{font-weight:600;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;padding-bottom:0}
+.cycle .wk{font-weight:600}
+.tag{display:inline-block;padding:1px 7px;border-radius:3px;font-weight:600;font-size:.8rem}
+.tU{background:var(--u-bg);color:var(--u)} .tSS{background:var(--ss-bg);color:var(--ss)} .tO{background:var(--o-bg);color:var(--o)}
+.tX{background:var(--x-bg);color:var(--x-fg)} .tF{background:var(--fest-bg);color:var(--fest)} .tE{background:var(--ex-bg);color:var(--ex)}
+.cols2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px}
+.cols2>div{min-width:0}
+.tablewrap{overflow-x:auto}
+table.plain{border-collapse:collapse;width:100%;font-size:.86rem}
+table.plain th,table.plain td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.plain th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+table.plain td:first-child{font-weight:600;white-space:nowrap}
+.open{display:flex;flex-direction:column;gap:8px}
+.open li{padding-left:2px}
+/* calendario */
+.calbar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.calbar label{font-size:.88rem;font-weight:600;display:flex;gap:8px;align-items:center}
+select{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink)}
+select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;align-items:center}
+.stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat{flex:1 1 120px;padding:8px 12px;border:1px solid var(--line);border-radius:4px;display:flex;flex-direction:column}
+.stat b{font-family:var(--serif);font-size:1.4rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.76rem;color:var(--muted)}
+.months{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.month{border:1px solid var(--line);border-radius:6px;padding:10px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.month h3{font-size:1rem;display:flex;justify-content:space-between;align-items:baseline}
+.month h3 small{font-family:var(--sans);font-weight:400;font-size:.74rem;color:var(--muted)}
+.cal{width:100%;border-collapse:separate;border-spacing:2px;table-layout:fixed;font-variant-numeric:tabular-nums}
+.cal th{font-size:.68rem;color:var(--muted);font-weight:600;padding:2px 0}
+.cal td{height:30px;text-align:center;font-size:.78rem;border-radius:3px;position:relative;padding:0;line-height:1.05}
+.cal td.wk{font-weight:700;font-size:.72rem}
+.cal td.wkA{background:var(--ss-bg);color:var(--ss)} .cal td.wkB{background:var(--o-bg);color:var(--o)} .cal td.wkX{background:var(--x-bg);color:var(--x-fg)}
+.cal td.out{visibility:hidden}
+.cal td.we{color:var(--x-fg)}
+.cal td.dX{background:var(--x-bg);color:var(--x-fg)}
+.cal td.dA{background:color-mix(in srgb,var(--ss-bg) 45%,transparent)}
+.cal td.dB{background:color-mix(in srgb,var(--o-bg) 45%,transparent)}
+.cal td.fest{background:var(--fest-bg)!important;color:var(--fest)!important;font-weight:700}
+.cal td.vU{background:var(--u);color:var(--paper);font-weight:600}
+.cal td.vSS{background:var(--ss);color:var(--paper);font-weight:600}
+.cal td.vO{background:var(--o);color:var(--paper);font-weight:600}
+.cal td em{display:block;font-style:normal;font-size:.56rem;letter-spacing:.03em;opacity:.9}
+.month .sum{font-size:.74rem;color:var(--muted);min-height:1.1em}
+.notes{font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:900px){.days{grid-template-columns:1fr}.months{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.cols2{grid-template-columns:1fr}.months{grid-template-columns:1fr}.rule{grid-template-columns:1fr}}
+@page{size:A4;margin:12mm}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:#fff;padding:0;font-size:12.5px}.wrap{gap:18px}.month,.cycle,tr{break-inside:avoid}.day{overflow:visible}.slots{font-size:.76rem}.slots td{padding:3px 7px}.day .top{padding:6px 10px}.rule h3{break-after:avoid}.wrap,.sheet,.rule .body{display:block}.wrap>*+*{margin-top:18px}.sheet>*+*,.rule .body>*+*{margin-top:12px}.rule{display:block;position:relative;padding-left:2.2rem}.rule .n{position:absolute;left:0;top:14px}.months{grid-template-columns:repeat(3,minmax(0,1fr))}.days{grid-template-columns:repeat(3,minmax(0,1fr))}.sheet{border:none;padding:0}.calsheet{break-before:page}.calbar select{display:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Propuesta para la reunión de unificación</span>
+  <h1>Criterio unificado de señalamiento · Sección Social</h1>
+  <div class="meta">
+    <span>Tribunal de Instancia de Las Palmas de Gran Canaria</span>
+    <span>11 plazas · Ámbito: año 2027</span>
+    <span>Elaborada a partir del cuadro comparativo v6 y las fichas v7</span>
+  </div>
+</header>
+
+<!-- ============ FICHA ============ -->
+<section class="sheet" aria-labelledby="ficha">
+  <div class="sheet-head">
+    <h2 id="ficha">Ficha de criterios</h2>
+    <span class="muted" style="font-size:.85rem">Una regla común, tres tipos de día y cuatro márgenes individuales</span>
+  </div>
+
+  <div class="consensus">
+    <div class="big"><b>15</b><span>juicios por día de vista</span></div>
+    <div class="big"><b>+3</b><span>huecos de ejecución, cautelares o INR</span></div>
+    <div class="big"><b>2</b><span>días de vista a la semana, los que ya tiene cada plaza</span></div>
+    <div class="big"><b>2</b><span>días de Seguridad Social al mes</span></div>
+  </div>
+
+  <div class="rule">
+    <div class="n">1</div>
+    <div class="body">
+      <h3>Agenda base</h3>
+      <ul class="tight">
+        <li>Cada plaza conserva sus dos días de vista y su sala. Así no se reorganiza la ocupación de salas.</li>
+        <li>Inicio a las <b>9:00 h</b>, intervalos de <b>10 minutos</b>. Último juicio 11:20 h y bloque de ejecución de 11:30 a 11:50 h.</li>
+        <li>Seguridad Social siempre en día distinto del resto de materias.</li>
+        <li>Cada día reserva <b>2 de sus 15 huecos para urgentes</b>. Si 15 días antes siguen libres, se ocupan con otros asuntos.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="n">2</div>
+    <div class="body">
+      <h3>Tres tipos de día</h3>
+      <div class="days">
+        <div class="day U">
+          <div class="top"><b>Día U · Despidos y urgentes</b><small>Primer día de vista de cada semana</small></div>
+          <table class="slots">
+            <tr><td class="t">09:00–09:20</td><td>Apertura: despidos complejos (cesión ilegal, grupo de empresas, DDFF)</td><td class="q">3</td></tr>
+            <tr><td class="t">09:30–10:10</td><td>Despidos y materias urgentes</td><td class="q">5</td></tr>
+            <tr class="res"><td class="t">10:20–10:30</td><td>Reserva urgentes</td><td class="q">2</td></tr>
+            <tr><td class="t">10:40–11:20</td><td>Ordinarios</td><td class="q">5</td></tr>
+            <tr class="ex"><td class="t">11:30–11:50</td><td>Ejecución / cautelares / INR</td><td class="q">3</td></tr>
+            <tr class="tot"><td class="t"></td><td>Juicios</td><td class="q">15</td></tr>
+          </table>
+        </div>
+        <div class="day SS">
+          <div class="top"><b>Día SS · Seguridad Social</b><small>Segundo día, semanas 1.ª y 3.ª del mes</small></div>
+          <table class="slots">
+            <tr class="res"><td class="t">09:00–09:10</td><td>Reserva urgentes SS (altas médicas)</td><td class="q">2</td></tr>
+            <tr><td class="t">09:20–10:50</td><td>Prestaciones. Máx. 3 con Mutua y máx. 2 de determinación de contingencia</td><td class="q">10</td></tr>
+            <tr><td class="t">11:00–11:20</td><td>Cantidades sencillas</td><td class="q">3</td></tr>
+            <tr class="ex"><td class="t">11:30–11:50</td><td>Ejecución / cautelares / INR</td><td class="q">3</td></tr>
+            <tr class="tot"><td class="t"></td><td>Juicios (12 de SS)</td><td class="q">15</td></tr>
+          </table>
+        </div>
+        <div class="day O">
+          <div class="top"><b>Día O · Ordinarios</b><small>Segundo día, resto de semanas</small></div>
+          <table class="slots">
+            <tr class="res"><td class="t">09:00–09:10</td><td>Reserva urgentes</td><td class="q">2</td></tr>
+            <tr><td class="t">09:20–11:10</td><td>Cantidad y ordinarios, agrupados por organismo y letrado</td><td class="q">12</td></tr>
+            <tr><td class="t">11:20</td><td>Asunto largo o complejo</td><td class="q">1</td></tr>
+            <tr class="ex"><td class="t">11:30–11:50</td><td>Ejecución / cautelares / INR</td><td class="q">3</td></tr>
+            <tr class="tot"><td class="t"></td><td>Juicios</td><td class="q">15</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="n">3</div>
+    <div class="body">
+      <h3>Ciclo mensual</h3>
+      <div class="cycle">
+        <div class="h"></div><div class="h">1.er día de vista</div><div class="h">2.º día de vista</div>
+        <div class="wk">Semanas 1.ª y 3.ª <span class="tag tSS">A</span></div><div class="tU">Día U</div><div class="tSS">Día SS</div>
+        <div class="wk">Semanas 2.ª, 4.ª y 5.ª <span class="tag tO">B</span></div><div class="tU">Día U</div><div class="tO">Día O</div>
+      </div>
+      <p class="muted" style="font-size:.86rem">Se cuentan solo las semanas en que se señala. Cada semana pertenece al mes en que cae su jueves. El calendario de abajo ya trae cada semana marcada como A o B.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="n">4</div>
+    <div class="body">
+      <h3>Límites por día, con independencia del tipo</h3>
+      <div class="cols2">
+        <ul class="tight">
+          <li>Máx. <b>1</b> reclamación de daños por accidente de trabajo.</li>
+          <li>Máx. <b>3</b> despidos complejos, en el bloque de apertura.</li>
+          <li>Máx. <b>2</b> de cada modalidad: MSCT, tutela de DDFF, concreción horaria y conflicto colectivo.</li>
+        </ul>
+        <ul class="tight">
+          <li>Máx. <b>2</b> Administraciones u organismos distintos, con sus asuntos seguidos.</li>
+          <li>Se agrupan los asuntos de la misma materia y el mismo letrado.</li>
+          <li>Máx. <b>1</b> asunto previsiblemente largo, en el último hueco.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="n">5</div>
+    <div class="body">
+      <h3>Semanas sin señalar (semanas completas, de lunes a viernes)</h3>
+      <ul class="tight">
+        <li>Semana de Reyes · Semana de Carnaval · Semana Santa</li>
+        <li>Última semana de julio, agosto y septiembre hasta la semana del Día del Pino (8-sep) incluida</li>
+        <li>Semana del puente de la Constitución (6 y 8-dic) · Desde la semana de Nochebuena hasta Reyes</li>
+        <li>Festivo en día de vista: ese día no se señala y no se recupera.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="n">6</div>
+    <div class="body">
+      <h3>Margen para discutir en la junta</h3>
+      <p class="muted" style="font-size:.88rem">Opciones de ajuste individual que se proponen para debatir. Fuera de las que se aprueben, se aplica la regla común.</p>
+      <div class="tablewrap">
+        <table class="plain">
+          <tr><th>Opción</th><th>Qué permite</th><th>Pensada para</th></tr>
+          <tr><td>a · Volumen</td><td>16 o 17 juicios en lugar de 15. Los juicios añadidos son ordinarios a las 11:30 y 11:40 h, y la ejecución se retrasa.</td><td>P.5, P.6, P.10, P.11</td></tr>
+          <tr><td>b · Orden</td><td>Invertir los días: SS u ordinarios el primer día y urgentes el segundo.</td><td>P.5 (SS en lunes)</td></tr>
+          <tr><td>c · Ejecución</td><td>Bloque de ejecución e INR a las 9:00 h. En ese caso los juicios empiezan a las 9:30 h.</td><td>P.4, P.5, P.8</td></tr>
+          <tr><td>d · Semanas cerradas</td><td>Hasta 2 semanas al año sin señalar, además de las comunes.</td><td>Semana siguiente a Semana Santa (P.2, P.4, P.9, P.11) o cierre de trimestre (P.2, P.6, P.11)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="n">7</div>
+    <div class="body">
+      <h3>Gestión común</h3>
+      <div class="cols2">
+        <ul class="tight">
+          <li>Dación de cuenta previa al magistrado o magistrada.</li>
+          <li>Nota digital en Atlante con las citaciones y la documentación.</li>
+        </ul>
+        <ul class="tight">
+          <li>Listado anónimo de las vistas al juez o jueza, <b>1 semana antes</b>, para poder suspender si no se cumplen los criterios. Si hay que suspender, no se suspenden los asuntos más antiguos ni los urgentes.</li>
+          <li>Si se cae un juicio, el hueco se cubre siempre que el plazo de citación lo permita.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLAZAS ============ -->
+<section class="sheet" aria-labelledby="plazas">
+  <div class="sheet-head">
+    <h2 id="plazas">Cómo queda cada plaza</h2>
+    <span class="muted" style="font-size:.85rem">Días de vista actuales y ajuste principal</span>
+  </div>
+  <div class="tablewrap">
+    <table class="plain">
+      <tr><th>Plaza</th><th>Día U</th><th>Día SS / O</th><th>Qué cambia</th></tr>
+      <tr><td>P.1</td><td>Mié</td><td>Jue</td><td>Casi nada. Ya alterna despidos, SS y cantidad.</td></tr>
+      <tr><td>P.2</td><td>Lun</td><td>Mar</td><td>Pasa de intervalos de 15 a 10 min. Su reparto 9 + 6 se queda en 10 + 5.</td></tr>
+      <tr><td>P.3</td><td>Mié</td><td>Jue</td><td>El juez deja de señalar. Señala la oficina con la plantilla común, como en el resto de plazas.</td></tr>
+      <tr><td>P.4</td><td>Lun</td><td>Mar</td><td>Su sistema de semanas A y B coincide con el común. Puede mantener la INR a primera hora (opción c).</td></tr>
+      <tr><td>P.5</td><td>Lun</td><td>Mar</td><td>Pasa de 17 a 15 juicios (o 17 con la opción a) y de 5 a 10 min. Para conservar SS en lunes, opción b.</td></tr>
+      <tr><td>P.6</td><td>Mié</td><td>Jue</td><td>Pasa de 18 a un máximo de 17. SS pasa de unos 3 días al mes a 2.</td></tr>
+      <tr><td>P.7</td><td>Mar</td><td>Jue</td><td>Casi nada. La alternancia queda fijada por calendario.</td></tr>
+      <tr><td>P.8</td><td>Mar</td><td>Mié</td><td>Empieza a las 9:00 h, o a las 9:30 h con la opción c. Sus 2 o 3 comparecencias de ejecución ya encajan.</td></tr>
+      <tr><td>P.9</td><td>Mié</td><td>Jue</td><td>Deja de señalar en Semana Santa. Puede cerrar la semana siguiente con la opción d.</td></tr>
+      <tr><td>P.10</td><td>Lun</td><td>Mar</td><td>Es el mayor ajuste: pasa de 20 a un máximo de 17 juicios.</td></tr>
+      <tr><td>P.11</td><td>Mar</td><td>Mié</td><td>Ya usa este modelo. Sus 16 juicios caben en la opción a.</td></tr>
+    </table>
+  </div>
+  <div>
+    <h3 style="margin-bottom:8px">Puntos a decidir en la reunión</h3>
+    <ul class="tight open">
+      <li><b>Techo de la opción a:</b> 17 juicios. P.10 (20) y P.6 (18) tendrían que reducir agenda.</li>
+      <li><b>Semana Santa:</b> se propone no señalar en ninguna plaza. P.9 es la única que hoy sí señala.</li>
+      <li><b>Cierre estadístico:</b> no se incluye como regla común porque solo lo aplican 3 de 11 plazas. Queda cubierto con la opción d.</li>
+      <li><b>Exigencias documentales de P.3 y P.11</b> (PDF/A con OCR y plazos de subsanación): son reglas de tramitación, no de señalamiento. Se proponen fuera de esta ficha.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CALENDARIO ============ -->
+<section class="sheet calsheet" aria-labelledby="cal">
+  <div class="sheet-head">
+    <h2 id="cal">Calendario de señalamientos 2027</h2>
+    <span class="muted" style="font-size:.85rem">Festivos de Canarias y de Las Palmas de Gran Canaria</span>
+  </div>
+
+  <div class="calbar">
+    <label for="plaza">Ver plaza
+      <select id="plaza">
+        <option value="">Todas (tipo de semana)</option>
+      </select>
+    </label>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+  <div class="months" id="months"></div>
+
+  <div class="notes">
+    <p>Festivos laborables de 2027: 1 y 6 ene, 9 feb (Martes de Carnaval, local), 25 y 26 mar, 24 jun (fundación de la ciudad, local), 16 ago (traslado de la Asunción), 8 sep (Virgen del Pino), 12 oct, 1 nov, 6 y 8 dic. En sábado o domingo caen el 1 de mayo, el 30 de mayo y el 25 de diciembre.</p>
+    <p>Semana de Carnaval 2027: del lunes 8 al viernes 12 de febrero. Según el programa municipal, el Carnaval de Las Palmas de Gran Canaria va del 22 de enero al 28 de febrero. En esa semana caen la Gala de la Reina (lunes 8) y el Martes de Carnaval (martes 9, festivo local con Carnaval de Día). La Gran Cabalgata (sábado 20) y el Entierro de la Sardina (domingo 28) caen en fin de semana y no afectan a los días de vista.</p>
+  </div>
+</section>
+
+<footer>Propuesta sujeta a debate y aprobación por la Sección.</footer>
+</div>
+
+<script>
+(function(){
+  var Y = 2027;
+  var MONTHS = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+  var DOW = ["L","M","X","J","V","S","D"];
+  var HOL = {
+    "2027-01-01":"Año Nuevo","2027-01-06":"Reyes","2027-02-09":"Martes de Carnaval","2027-03-25":"Jueves Santo",
+    "2027-03-26":"Viernes Santo","2027-05-01":"Fiesta del Trabajo","2027-05-30":"Día de Canarias",
+    "2027-06-24":"Fundación de la ciudad","2027-08-16":"Asunción (trasladado)","2027-09-08":"Virgen del Pino",
+    "2027-10-12":"Fiesta Nacional","2027-11-01":"Todos los Santos","2027-12-06":"Constitución",
+    "2027-12-08":"Inmaculada","2027-12-25":"Navidad"
+  };
+  // Lunes de las semanas sin señalar
+  var EXCL = {
+    "2026-12-28":"Navidad–Reyes","2027-01-04":"Reyes","2027-02-08":"Carnaval (Gala de la Reina 8-feb, Martes de Carnaval 9-feb)","2027-03-22":"Semana Santa",
+    "2027-07-26":"Última semana de julio","2027-08-02":"Agosto","2027-08-09":"Agosto","2027-08-16":"Agosto",
+    "2027-08-23":"Agosto","2027-08-30":"Hasta el Pino","2027-09-06":"Semana del Pino",
+    "2027-12-06":"Puente de diciembre","2027-12-20":"Navidad","2027-12-27":"Navidad"
+  };
+  // Días de vista: [día U, segundo día]; 1 = lunes
+  var PLAZAS = {1:[3,4],2:[1,2],3:[3,4],4:[1,2],5:[1,2],6:[3,4],7:[2,4],8:[2,3],9:[3,4],10:[1,2],11:[2,3]};
+  var DN = ["","Lun","Mar","Mié","Jue","Vie"];
+
+  function d(y,m,day){ return new Date(Date.UTC(y,m,day)); }
+  function iso(dt){ return dt.toISOString().slice(0,10); }
+  function add(dt,n){ return new Date(dt.getTime()+n*864e5); }
+  function dow(dt){ return (dt.getUTCDay()+6)%7+1; } // 1..7
+
+  // Tipo de semana: A (1.ª y 3.ª señalable del mes del jueves), B (resto), X (sin señalar)
+  var WEEK = {};
+  var counter = {};
+  for (var mon = d(2026,11,28); mon <= d(2027,11,27); mon = add(mon,7)) {
+    var k = iso(mon);
+    if (EXCL[k]) { WEEK[k] = {t:"X", why:EXCL[k]}; continue; }
+    var th = add(mon,3), mk = th.getUTCFullYear()+"-"+th.getUTCMonth();
+    counter[mk] = (counter[mk]||0)+1;
+    var n = counter[mk];
+    WEEK[k] = {t:(n===1||n===3)?"A":"B", n:n};
+  }
+  function mondayOf(dt){ return add(dt, -(dow(dt)-1)); }
+
+  var sel = document.getElementById("plaza");
+  for (var p=1;p<=11;p++){
+    var o=document.createElement("option"); o.value=p;
+    o.textContent="Plaza "+p+" · "+DN[PLAZAS[p][0]]+" / "+DN[PLAZAS[p][1]];
+    sel.appendChild(o);
+  }
+  try { var saved = localStorage.getItem("cus-plaza"); if (saved !== null) sel.value = saved; } catch(e){}
+
+  function vista(plaza, dt){
+    var wk = WEEK[iso(mondayOf(dt))]; if (!wk || wk.t==="X") return null;
+    var w = dow(dt), pd = PLAZAS[plaza];
+    if (w===pd[0]) return "U";
+    if (w===pd[1]) return wk.t==="A" ? "SS" : "O";
+    return null;
+  }
+
+  function render(){
+    var plaza = sel.value ? +sel.value : 0;
+    var legend = document.getElementById("legend");
+    legend.innerHTML = plaza
+      ? '<span class="tag tU">U</span>Despidos y urgentes <span class="tag tSS">SS</span>Seg. Social <span class="tag tO">O</span>Ordinarios <span class="tag tF">F</span>Festivo <span class="tag tX">—</span>Sin señalar'
+      : '<span class="tag tSS">A</span>Semana con día SS <span class="tag tO">B</span>Semana con día O <span class="tag tX">—</span>Sin señalar <span class="tag tF">F</span>Festivo';
+
+    var tot = {U:0,SS:0,O:0,F:0}, weeksA=0, weeksB=0;
+    var html = "";
+    for (var m=0;m<12;m++){
+      var first = d(Y,m,1), last = d(Y,m+1,0);
+      var start = mondayOf(first);
+      var mc = {U:0,SS:0,O:0,F:0};
+      var rows = "";
+      for (var mon = start; mon <= last; mon = add(mon,7)){
+        var wk = WEEK[iso(mon)] || {t:"X"};
+        var label = wk.t==="X" ? "—" : wk.t;
+        rows += '<tr><td class="wk wk'+wk.t+'" title="'+(wk.why||("Semana "+wk.t))+'">'+label+'</td>';
+        for (var i=0;i<7;i++){
+          var dt = add(mon,i), k = iso(dt), inM = dt.getUTCMonth()===m && dt.getUTCFullYear()===Y;
+          if (!inM){ rows += '<td class="out"></td>'; continue; }
+          var cls = [], inner = dt.getUTCDate(), title = "";
+          var hol = HOL[k];
+          if (i>=5) cls.push("we");
+          else if (wk.t==="X") cls.push("dX");
+          else if (!plaza) cls.push(wk.t==="A"?"dA":"dB");
+          if (plaza && i<5){
+            var v = vista(plaza, dt);
+            if (v){
+              if (hol){ mc.F++; inner += "<em>F</em>"; }
+              else { mc[v]++; cls.push("v"+v); inner += "<em>"+v+"</em>"; }
+            }
+          }
+          if (hol){ cls.push("fest"); title = hol; }
+          else if (wk.t==="X" && i<5) title = wk.why;
+          rows += '<td class="'+cls.join(" ")+'"'+(title?' title="'+title+'"':"")+'>'+inner+'</td>';
+        }
+        rows += "</tr>";
+      }
+      var sum = "";
+      if (plaza){
+        var dd = mc.U+mc.SS+mc.O;
+        sum = dd ? (mc.U+" U · "+mc.SS+" SS · "+mc.O+" O"+(mc.F?" · "+mc.F+" festivo":"")) : "Sin señalamientos";
+        tot.U+=mc.U; tot.SS+=mc.SS; tot.O+=mc.O; tot.F+=mc.F;
+      } else {
+        var a=0,b=0;
+        for (var mon2 = start; mon2 <= last; mon2 = add(mon2,7)){
+          var th = add(mon2,3); if (th.getUTCMonth()!==m) continue;
+          var w2 = WEEK[iso(mon2)]; if (w2.t==="A") a++; else if (w2.t==="B") b++;
+        }
+        weeksA+=a; weeksB+=b;
+        sum = (a+b) ? (a+b)+" semanas señalables · "+a+" con SS" : "Sin señalamientos";
+      }
+      html += '<div class="month"><h3>'+MONTHS[m]+'</h3><table class="cal"><thead><tr><th></th>'+
+        DOW.map(function(x){return "<th>"+x+"</th>";}).join("")+'</tr></thead><tbody>'+rows+'</tbody></table><div class="sum">'+sum+'</div></div>';
+    }
+    document.getElementById("months").innerHTML = html;
+
+    var st = document.getElementById("stats");
+    if (plaza){
+      var days = tot.U+tot.SS+tot.O, pd = PLAZAS[plaza];
+      st.innerHTML =
+        stat(days,"días de vista (Plaza "+plaza+")")+
+        stat(tot.U,"días U · "+DN[pd[0]])+
+        stat(tot.SS,"días SS · "+DN[pd[1]])+
+        stat(tot.O,"días O · "+DN[pd[1]])+
+        stat(days*15,"juicios a 15 por día")+
+        stat(days*3,"huecos de ejecución")+
+        stat(tot.F,"vistas perdidas por festivo");
+    } else {
+      st.innerHTML =
+        stat(weeksA+weeksB,"semanas señalables")+
+        stat(weeksA,"semanas A (con SS)")+
+        stat(weeksB,"semanas B (con O)")+
+        stat((weeksA+weeksB)*2,"días de vista por plaza, antes de festivos")+
+        stat((weeksA+weeksB)*2*15,"juicios por plaza, aprox.");
+    }
+    try { localStorage.setItem("cus-plaza", sel.value); } catch(e){}
+  }
+  function stat(n,l){ return '<div class="stat"><b>'+n+'</b><span>'+l+'</span></div>'; }
+  sel.addEventListener("change", render);
+  render();
+})();
+</script>
+</body>
+</html>
