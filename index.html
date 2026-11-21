@@ -141,14 +141,14 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
 <section class="sheet" aria-labelledby="ficha">
   <div class="sheet-head">
     <h2 id="ficha">Ficha de criterios</h2>
-    <span class="muted" style="font-size:.85rem">Una regla común, tres tipos de día y cuatro márgenes individuales</span>
+    <span class="muted" style="font-size:.85rem">Una regla común y tres tipos de día</span>
   </div>
 
   <div class="consensus">
-    <div class="big"><b>15</b><span>juicios por día de vista</span></div>
-    <div class="big"><b>+3</b><span>huecos de ejecución, cautelares o INR</span></div>
-    <div class="big"><b>2</b><span>días de vista a la semana, los que ya tiene cada plaza</span></div>
-    <div class="big"><b>2</b><span>días de Seguridad Social al mes</span></div>
+    <div class="big"><b>Máx. 15</b><span>juicios por día de vista. Se puede señalar menos</span></div>
+    <div class="big"><b>+3</b><span>huecos para urgentes, cautelares e INR, al principio</span></div>
+    <div class="big"><b>2</b><span>días de vista a la semana, más los que habilite cada juez</span></div>
+    <div class="big"><b>A / B</b><span>semanas alternas: el día de Seguridad Social va en las semanas A</span></div>
   </div>
 
   <div class="rule">
@@ -157,7 +157,9 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
       <h3>Agenda base</h3>
       <ul class="tight">
         <li>Cada plaza conserva sus dos días de vista y su sala. Así no se reorganiza la ocupación de salas.</li>
-        <li>Inicio a las <b>9:00 h</b>, intervalos de <b>10 minutos</b>. Último juicio 11:20 h y bloque de ejecución de 11:30 a 11:50 h.</li>
+        <li>Cada juez puede habilitar, por decisión propia, los días de vista adicionales que necesite.</li>
+        <li><b>Máximo 15 juicios</b> por día. Quien quiera puede señalar menos.</li>
+        <li>Inicio a las <b>9:00 h</b>, intervalos de <b>10 minutos</b>. Primero va el <b>bloque de urgentes, cautelares e INR</b> (9:00 a 9:20 h) y después los juicios, desde las 9:30 h.</li>
         <li>Seguridad Social siempre en día distinto del resto de materias.</li>
         <li>Cada día reserva <b>2 de sus 15 huecos para urgentes</b>. Si 15 días antes siguen libres, se ocupan con otros asuntos.</li>
       </ul>
@@ -172,32 +174,22 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
         <div class="day U">
           <div class="top"><b>Día U · Despidos y urgentes</b><small>Primer día de vista de cada semana</small></div>
           <table class="slots">
-            <tr><td class="t">09:00–09:20</td><td>Apertura: despidos complejos (cesión ilegal, grupo de empresas, DDFF)</td><td class="q">3</td></tr>
-            <tr><td class="t">09:30–10:10</td><td>Despidos y materias urgentes</td><td class="q">5</td></tr>
-            <tr class="res"><td class="t">10:20–10:30</td><td>Reserva urgentes</td><td class="q">2</td></tr>
-            <tr><td class="t">10:40–11:20</td><td>Ordinarios</td><td class="q">5</td></tr>
-            <tr class="ex"><td class="t">11:30–11:50</td><td>Ejecución / cautelares / INR</td><td class="q">3</td></tr>
-            <tr class="tot"><td class="t"></td><td>Juicios</td><td class="q">15</td></tr>
+            <tr class="ex"><td class="t">09:00–09:20</td><td>Urgentes, cautelares e INR</td></tr>
+            <tr><td class="t">Desde 09:30</td><td>Juicios (máx. 15)</td></tr>
           </table>
         </div>
         <div class="day SS">
-          <div class="top"><b>Día SS · Seguridad Social</b><small>Segundo día, semanas 1.ª y 3.ª del mes</small></div>
+          <div class="top"><b>Día SS · Seguridad Social</b><small>Segundo día de vista en las semanas A</small></div>
           <table class="slots">
-            <tr class="res"><td class="t">09:00–09:10</td><td>Reserva urgentes SS (altas médicas)</td><td class="q">2</td></tr>
-            <tr><td class="t">09:20–10:50</td><td>Prestaciones. Máx. 3 con Mutua y máx. 2 de determinación de contingencia</td><td class="q">10</td></tr>
-            <tr><td class="t">11:00–11:20</td><td>Cantidades sencillas</td><td class="q">3</td></tr>
-            <tr class="ex"><td class="t">11:30–11:50</td><td>Ejecución / cautelares / INR</td><td class="q">3</td></tr>
-            <tr class="tot"><td class="t"></td><td>Juicios (12 de SS)</td><td class="q">15</td></tr>
+            <tr class="ex"><td class="t">09:00–09:20</td><td>Urgentes, cautelares e INR</td></tr>
+            <tr><td class="t">Desde 09:30</td><td>Juicios (máx. 15)</td></tr>
           </table>
         </div>
         <div class="day O">
-          <div class="top"><b>Día O · Ordinarios</b><small>Segundo día, resto de semanas</small></div>
+          <div class="top"><b>Día O · Ordinarios</b><small>Segundo día de vista en las semanas B</small></div>
           <table class="slots">
-            <tr class="res"><td class="t">09:00–09:10</td><td>Reserva urgentes</td><td class="q">2</td></tr>
-            <tr><td class="t">09:20–11:10</td><td>Cantidad y ordinarios, agrupados por organismo y letrado</td><td class="q">12</td></tr>
-            <tr><td class="t">11:20</td><td>Asunto largo o complejo</td><td class="q">1</td></tr>
-            <tr class="ex"><td class="t">11:30–11:50</td><td>Ejecución / cautelares / INR</td><td class="q">3</td></tr>
-            <tr class="tot"><td class="t"></td><td>Juicios</td><td class="q">15</td></tr>
+            <tr class="ex"><td class="t">09:00–09:20</td><td>Urgentes, cautelares e INR</td></tr>
+            <tr><td class="t">Desde 09:30</td><td>Juicios (máx. 15)</td></tr>
           </table>
         </div>
       </div>
@@ -207,13 +199,13 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
   <div class="rule">
     <div class="n">3</div>
     <div class="body">
-      <h3>Ciclo mensual</h3>
+      <h3>Semanas A y B</h3>
       <div class="cycle">
         <div class="h"></div><div class="h">1.er día de vista</div><div class="h">2.º día de vista</div>
-        <div class="wk">Semanas 1.ª y 3.ª <span class="tag tSS">A</span></div><div class="tU">Día U</div><div class="tSS">Día SS</div>
-        <div class="wk">Semanas 2.ª, 4.ª y 5.ª <span class="tag tO">B</span></div><div class="tU">Día U</div><div class="tO">Día O</div>
+        <div class="wk">Semana A <span class="tag tSS">A</span></div><div class="tU">Día U</div><div class="tSS">Día SS</div>
+        <div class="wk">Semana B <span class="tag tO">B</span></div><div class="tU">Día U</div><div class="tO">Día O</div>
       </div>
-      <p class="muted" style="font-size:.86rem">Se cuentan solo las semanas en que se señala. Cada semana pertenece al mes en que cae su jueves. El calendario de abajo ya trae cada semana marcada como A o B.</p>
+      <p class="muted" style="font-size:.86rem">Las semanas A y B se alternan de forma continuada durante todo el año, sin reiniciarse cada mes. Solo cuentan las semanas en que se señala. El calendario de abajo ya trae cada semana marcada como A o B.</p>
     </div>
   </div>
 
@@ -223,14 +215,14 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
       <h3>Límites por día, con independencia del tipo</h3>
       <div class="cols2">
         <ul class="tight">
+          <li>Máx. <b>3</b> despidos complejos, al principio, justo después de los huecos de urgentes, cautelares e INR.</li>
+          <li>Máx. <b>2</b> MSCT, <b>1</b> tutela de DDFF, <b>2</b> concreciones horarias y <b>1</b> conflicto colectivo.</li>
           <li>Máx. <b>1</b> reclamación de daños por accidente de trabajo.</li>
-          <li>Máx. <b>3</b> despidos complejos, en el bloque de apertura.</li>
-          <li>Máx. <b>2</b> de cada modalidad: MSCT, tutela de DDFF, concreción horaria y conflicto colectivo.</li>
         </ul>
         <ul class="tight">
+          <li>Máx. <b>1</b> asunto previsiblemente largo, por el número de partes o de testigos. Va en el <b>primer hueco</b>.</li>
           <li>Máx. <b>2</b> Administraciones u organismos distintos, con sus asuntos seguidos.</li>
           <li>Se agrupan los asuntos de la misma materia y el mismo letrado.</li>
-          <li>Máx. <b>1</b> asunto previsiblemente largo, en el último hueco.</li>
         </ul>
       </div>
     </div>
@@ -245,29 +237,13 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
         <li>Última semana de julio, agosto y septiembre hasta la semana del Día del Pino (8-sep) incluida</li>
         <li>Semana del puente de la Constitución (6 y 8-dic) · Desde la semana de Nochebuena hasta Reyes</li>
         <li>Festivo en día de vista: ese día no se señala y no se recupera.</li>
+        <li>Cada juez puede bloquear individualmente fechas de no señalamiento.</li>
       </ul>
     </div>
   </div>
 
   <div class="rule">
     <div class="n">6</div>
-    <div class="body">
-      <h3>Margen para discutir en la junta</h3>
-      <p class="muted" style="font-size:.88rem">Opciones de ajuste individual que se proponen para debatir. Fuera de las que se aprueben, se aplica la regla común.</p>
-      <div class="tablewrap">
-        <table class="plain">
-          <tr><th>Opción</th><th>Qué permite</th><th>Pensada para</th></tr>
-          <tr><td>a · Volumen</td><td>16 o 17 juicios en lugar de 15. Los juicios añadidos son ordinarios a las 11:30 y 11:40 h, y la ejecución se retrasa.</td><td>P.5, P.6, P.10, P.11</td></tr>
-          <tr><td>b · Orden</td><td>Invertir los días: SS u ordinarios el primer día y urgentes el segundo.</td><td>P.5 (SS en lunes)</td></tr>
-          <tr><td>c · Ejecución</td><td>Bloque de ejecución e INR a las 9:00 h. En ese caso los juicios empiezan a las 9:30 h.</td><td>P.4, P.5, P.8</td></tr>
-          <tr><td>d · Semanas cerradas</td><td>Hasta 2 semanas al año sin señalar, además de las comunes.</td><td>Semana siguiente a Semana Santa (P.2, P.4, P.9, P.11) o cierre de trimestre (P.2, P.6, P.11)</td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="rule">
-    <div class="n">7</div>
     <div class="body">
       <h3>Gestión común</h3>
       <div class="cols2">
@@ -281,39 +257,6 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
         </ul>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ PLAZAS ============ -->
-<section class="sheet" aria-labelledby="plazas">
-  <div class="sheet-head">
-    <h2 id="plazas">Cómo queda cada plaza</h2>
-    <span class="muted" style="font-size:.85rem">Días de vista actuales y ajuste principal</span>
-  </div>
-  <div class="tablewrap">
-    <table class="plain">
-      <tr><th>Plaza</th><th>Día U</th><th>Día SS / O</th><th>Qué cambia</th></tr>
-      <tr><td>P.1</td><td>Mié</td><td>Jue</td><td>Casi nada. Ya alterna despidos, SS y cantidad.</td></tr>
-      <tr><td>P.2</td><td>Lun</td><td>Mar</td><td>Pasa de intervalos de 15 a 10 min. Su reparto 9 + 6 se queda en 10 + 5.</td></tr>
-      <tr><td>P.3</td><td>Mié</td><td>Jue</td><td>El juez deja de señalar. Señala la oficina con la plantilla común, como en el resto de plazas.</td></tr>
-      <tr><td>P.4</td><td>Lun</td><td>Mar</td><td>Su sistema de semanas A y B coincide con el común. Puede mantener la INR a primera hora (opción c).</td></tr>
-      <tr><td>P.5</td><td>Lun</td><td>Mar</td><td>Pasa de 17 a 15 juicios (o 17 con la opción a) y de 5 a 10 min. Para conservar SS en lunes, opción b.</td></tr>
-      <tr><td>P.6</td><td>Mié</td><td>Jue</td><td>Pasa de 18 a un máximo de 17. SS pasa de unos 3 días al mes a 2.</td></tr>
-      <tr><td>P.7</td><td>Mar</td><td>Jue</td><td>Casi nada. La alternancia queda fijada por calendario.</td></tr>
-      <tr><td>P.8</td><td>Mar</td><td>Mié</td><td>Empieza a las 9:00 h, o a las 9:30 h con la opción c. Sus 2 o 3 comparecencias de ejecución ya encajan.</td></tr>
-      <tr><td>P.9</td><td>Mié</td><td>Jue</td><td>Deja de señalar en Semana Santa. Puede cerrar la semana siguiente con la opción d.</td></tr>
-      <tr><td>P.10</td><td>Lun</td><td>Mar</td><td>Es el mayor ajuste: pasa de 20 a un máximo de 17 juicios.</td></tr>
-      <tr><td>P.11</td><td>Mar</td><td>Mié</td><td>Ya usa este modelo. Sus 16 juicios caben en la opción a.</td></tr>
-    </table>
-  </div>
-  <div>
-    <h3 style="margin-bottom:8px">Puntos a decidir en la reunión</h3>
-    <ul class="tight open">
-      <li><b>Techo de la opción a:</b> 17 juicios. P.10 (20) y P.6 (18) tendrían que reducir agenda.</li>
-      <li><b>Semana Santa:</b> se propone no señalar en ninguna plaza. P.9 es la única que hoy sí señala.</li>
-      <li><b>Cierre estadístico:</b> no se incluye como regla común porque solo lo aplican 3 de 11 plazas. Queda cubierto con la opción d.</li>
-      <li><b>Exigencias documentales de P.3 y P.11</b> (PDF/A con OCR y plazos de subsanación): son reglas de tramitación, no de señalamiento. Se proponen fuera de esta ficha.</li>
-    </ul>
   </div>
 </section>
 
@@ -373,16 +316,14 @@ footer{font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);paddi
   function add(dt,n){ return new Date(dt.getTime()+n*864e5); }
   function dow(dt){ return (dt.getUTCDay()+6)%7+1; } // 1..7
 
-  // Tipo de semana: A (1.ª y 3.ª señalable del mes del jueves), B (resto), X (sin señalar)
+  // Tipo de semana: A y B alternas de forma continuada en todo el año (solo semanas señalables), X (sin señalar)
   var WEEK = {};
-  var counter = {};
+  var n = 0;
   for (var mon = d(2026,11,28); mon <= d(2027,11,27); mon = add(mon,7)) {
     var k = iso(mon);
     if (EXCL[k]) { WEEK[k] = {t:"X", why:EXCL[k]}; continue; }
-    var th = add(mon,3), mk = th.getUTCFullYear()+"-"+th.getUTCMonth();
-    counter[mk] = (counter[mk]||0)+1;
-    var n = counter[mk];
-    WEEK[k] = {t:(n===1||n===3)?"A":"B", n:n};
+    n++;
+    WEEK[k] = {t:(n%2===1)?"A":"B", n:n};
   }
   function mondayOf(dt){ return add(dt, -(dow(dt)-1)); }
 
